@@ -1,9 +1,23 @@
 import React, { Component } from 'react';
-import GridList from '@material-ui/core/GridList';
+import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
-import GridListTile from '@material-ui/core/GridListTile';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TopTrackItem from './TopTrackItem';
+
+const styles = theme => ({
+  trackList: {
+    backgroundColor: theme.palette.background.paper,
+    maxWidth: '600px'
+  },
+  title: {
+    margin: `${theme.spacing.unit * 2}px 0 ${theme.spacing.unit * 2}px`,
+  },
+  spinnerWrapper: {
+    padding: '10px',
+    textAlign: 'center'
+  }
+});
 
 class TopTracks extends Component {
     componentDidMount() {
@@ -17,35 +31,50 @@ class TopTracks extends Component {
       const {
         tracks,
         loaded,
+        classes,
       } = this.props;
 
       return (
-        <GridList cellHeight={100}>
-          <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-            <ListSubheader component="h1">Top Tracks</ListSubheader>
-          </GridListTile>
-          {tracks.map((track, i) => {
-            const {
-              mbid,
-              name,
-              image,
-              artist: {
-                name: artistName,
-                url: artistUrl,
-              }
-            } = track;
-            const imgSrc = image[2]['\#text'];
-            const itemProps = {
-              name,
-              artistName,
-              artistUrl,
-              imgSrc,
-            };
-            return (<TopTrackItem key={mbid} {...itemProps} />);
-          })}
-        </GridList>
+        <div>
+          <Typography variant="h6" className={classes.title}>
+            Top Tracks
+          </Typography>
+          <div className={classes.trackList}>
+            {
+              !loaded && (
+                <div className={classes.spinnerWrapper}>
+                  <CircularProgress className={classes.spinner} />
+                </div>
+              )
+            }
+            {
+              loaded && (
+                <List>
+                  {tracks.map((track, i) => {
+                    const {
+                      name,
+                      image,
+                      artist: {
+                        name: artistName,
+                        url: artistUrl,
+                      }
+                    } = track;
+                    const imgSrc = image && image[2] && image[2]['#text'] ? image[2]['#text'] : null;
+                    const itemProps = {
+                      name,
+                      artistName,
+                      artistUrl,
+                      imgSrc,
+                    };
+                    return (<TopTrackItem key={i} {...itemProps} />);
+                  })}
+                </List>
+              )
+            }
+          </div>
+        </div>
       );
     }
   }
   
-  export default TopTracks;
+  export default withStyles(styles)(TopTracks);
