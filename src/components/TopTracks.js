@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import TopTrackItem from './TopTrackItem';
+import LinearLoader from './LinearLoader';
 
 const styles = theme => ({
   trackList: {
@@ -22,9 +22,13 @@ const styles = theme => ({
 class TopTracks extends Component {
     componentDidMount() {
         const {
+            loaded,
             getTracksHandler,
         } = this.props;
-        getTracksHandler();
+
+        if (!loaded) {
+          getTracksHandler();
+        }
     }
 
     render() {
@@ -36,19 +40,12 @@ class TopTracks extends Component {
 
       return (
         <div>
-          <Typography variant="h6" className={classes.title}>
-            Top Tracks
+          <Typography variant="h5" className={classes.title}>
+            TOP TRACKS
           </Typography>
           <div className={classes.trackList}>
             {
-              !loaded && (
-                <div className={classes.spinnerWrapper}>
-                  <CircularProgress className={classes.spinner} />
-                </div>
-              )
-            }
-            {
-              loaded && (
+              loaded ? (
                 <List>
                   {tracks.map((track, i) => {
                     const {
@@ -69,7 +66,7 @@ class TopTracks extends Component {
                     return (<TopTrackItem key={i} {...itemProps} />);
                   })}
                 </List>
-              )
+              ) : (<LinearLoader wrapperStyle={{padding: "15px"}} />)
             }
           </div>
         </div>

@@ -5,11 +5,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+import MUILink from '@material-ui/core/Link';
 import PersonIcon from '@material-ui/icons/Person';
 import AudiotrackIcon from '@material-ui/icons/Audiotrack';
 import Tooltip from '@material-ui/core/Tooltip';
 import { withStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
     avatarPic: {
@@ -25,7 +26,7 @@ class TopTrackItem extends Component {
         artistName,
         artistUrl,
         imgSrc,
-        classes,
+        classes
       } = this.props;
 
       return (
@@ -45,7 +46,7 @@ class TopTrackItem extends Component {
                 primary={name}
                 secondary={
                     <span>
-                        by: <Link href={artistUrl}>{artistName}</Link>
+                        by: <MUILink component={Link} to={`/artist/${artistName.split(' ').join('+')}`}>{artistName}</MUILink>
                     </span>
                 }
             />
