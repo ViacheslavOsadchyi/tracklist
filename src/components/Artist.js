@@ -4,64 +4,24 @@ import Card from '@material-ui/core/Card';
 import Paper from '@material-ui/core/Paper';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LinearLoader from './LinearLoader';
-import BookmarkIcon from '@material-ui/icons/Bookmark';
 import MUILink from '@material-ui/core/Link';
 import {Link} from 'react-router-dom';
-
-const styles = theme => ({
-    card: {
-        display: 'flex',
-        [theme.breakpoints.down('xs')]: {
-            maxWidth: '300px',
-            flexDirection: 'column'
-        }
-    },
-    tagIcon: {
-        display: 'inline-block',
-        verticalAlign: 'middle',
-    },
-    media: {
-        flex: "1 0 auto"
-    },
-    content: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    cardContentHeader: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        marginBottom: '20px',
-        [theme.breakpoints.down('xs')]: {
-            flexDirection: 'column',
-            marginBottom: '15px',
-        }
-    },
-    breadCrumbs: {
-        [theme.breakpoints.down('xs')]: {
-            order: '0',
-            marginBottom: '10px',
-        }
-    },
-    title: {
-        [theme.breakpoints.down('xs')]: {
-            order: '1',
-        }        
-    }
-});
+import Tags from './Tags';
+import imageLoadingController from './imageLoadingController';
+import artistStyles from '../styles/artistStyles';
 
 class Artist extends Component {
     componentDidMount() {
         const {
             getArtistInfoHandler,
             artistUrlName,
+            addImageHandler,
         } = this.props;
         getArtistInfoHandler(artistUrlName);
         window.scrollTo(0,0);
+        addImageHandler();
     }
 
     componentWillUnmount() {
@@ -80,20 +40,21 @@ class Artist extends Component {
                     summary: bioSummary,
                 },
                 image,
+                tags,
             },
             classes,
+            loadImageHandler,
+            imagesLoaded,
         } = this.props;
 
         return (
-            <Card className={classes.card}>
+            <Card className={classes.card} style={{visibility : imagesLoaded ? 'visible' : 'hidden'}}>
                 <div className={classes.media}>
                     <img
                         src={image[4]['#text']}
                         style={{width: '300px', height: '300px', display: 'block'}}
-                        onLoad={() => {
-                            console.log('Iamge Loaded!!!');
-                        }}
-                        alt
+                        onLoad={loadImageHandler}
+                        alt="artistPic"
                     />
                 </div>
                 <div className={classes.content}>
@@ -110,54 +71,35 @@ class Artist extends Component {
                         <Typography component="p" dangerouslySetInnerHTML={{ __html: bioSummary }} />
                     </CardContent>
                     <CardActions>
-                        {this.renderTags()}
+                        {tags && tags.tag && <Tags tags={tags.tag} />}
                     </CardActions>
                 </div>
             </Card>
         );
     }
 
-    renderTags() {
-        const {
-            artistInfo,
-            classes,
-        } = this.props;
-
-        const tags = artistInfo && artistInfo.tags &&
-            artistInfo.tags.tag ? this.props.artistInfo.tags.tag : [];
-
-        return (
-            <div className="tags">
-                <BookmarkIcon className={classes.tagIcon} />
-                {tags.map((tag) => {
-                    const {
-                        name,
-                        url
-                    } = tag;
-
-                    return (
-                        <Button key={name} href={url}>
-                            {name}
-                        </Button>
-                    );
-                })}
-            </div>
-        )
-    }
-
     render() {
         const {
             loaded,
+            imagesLoaded,
+            classes,
         } = this.props;
 
       return (
-        loaded ? this.renderCard() : (
-            <Paper>
-                <LinearLoader wrapperStyle={{padding: '15px'}} />
-            </Paper>
-          )
-      );
+        <div className={classes.cardWrapper}>
+            {
+                (!loaded || !imagesLoaded) && (
+                    <Paper>
+                        <LinearLoader wrapperStyle={{padding: '15px'}} />
+                    </Paper>               
+                )
+            }
+            {
+                loaded && this.renderCard()
+            }
+        </div>
+      )
     }
   }
   
-  export default withStyles(styles)(Artist);
+  export default withStyles(artistStyles)(imageLoadingController(Artist));

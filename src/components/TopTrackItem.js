@@ -20,12 +20,24 @@ const styles = theme => ({
   });
 
 class TopTrackItem extends Component {
+    componentDidMount() {
+      const {
+        imgSrc,
+        addImageHandler,
+      } = this.props;
+
+      if (imgSrc) {
+        addImageHandler();
+      }
+    }
+
     render() {
       const {
         name,
         artistName,
         artistUrl,
         imgSrc,
+        loadImageHandler,
         classes
       } = this.props;
 
@@ -34,7 +46,7 @@ class TopTrackItem extends Component {
             <ListItemAvatar>
                 {
                     imgSrc ? (
-                        <Avatar src={imgSrc} className={classes.avatarPic} />
+                        <Avatar src={imgSrc} onLoad={loadImageHandler} className={classes.avatarPic} />
                     ) : (
                         <Avatar className={classes.avatarPic}>
                             <AudiotrackIcon fontSize='large' />

@@ -4,20 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import TopTrackItem from './TopTrackItem';
 import LinearLoader from './LinearLoader';
-
-const styles = theme => ({
-  trackList: {
-    backgroundColor: theme.palette.background.paper,
-    maxWidth: '600px'
-  },
-  title: {
-    margin: `${theme.spacing.unit * 2}px 0 ${theme.spacing.unit * 2}px`,
-  },
-  spinnerWrapper: {
-    padding: '10px',
-    textAlign: 'center'
-  }
-});
+import topTracksStyles from '../styles/topTracksStyles';
+import imageLoadingController from './imageLoadingController';
 
 class TopTracks extends Component {
     componentDidMount() {
@@ -36,16 +24,26 @@ class TopTracks extends Component {
         tracks,
         loaded,
         classes,
+        addImageHandler,
+        loadImageHandler,
+        imagesLoaded,
       } = this.props;
 
       return (
-        <div>
+        <div className={classes.topTracksArea}>
           <Typography variant="h5" className={classes.title}>
             TOP TRACKS
           </Typography>
-          <div className={classes.trackList}>
-            {
-              loaded ? (
+          {
+            (!loaded || !imagesLoaded) && (
+              <div className={classes.trackList}>
+                <LinearLoader wrapperStyle={{padding: '15px'}} />
+              </div>
+            )
+          }
+          {
+            loaded && (
+              <div className={classes.trackList} style={{visibility: imagesLoaded ? 'visible' : 'hidden'}}>
                 <List>
                   {tracks.map((track, i) => {
                     const {
@@ -63,15 +61,19 @@ class TopTracks extends Component {
                       artistUrl,
                       imgSrc,
                     };
-                    return (<TopTrackItem key={i} {...itemProps} />);
+                    return (<TopTrackItem 
+                      key={i} 
+                      addImageHandler={addImageHandler} 
+                      loadImageHandler={loadImageHandler}
+                      {...itemProps} />);
                   })}
                 </List>
-              ) : (<LinearLoader wrapperStyle={{padding: "15px"}} />)
-            }
-          </div>
+              </div>
+            )
+          }
         </div>
       );
     }
   }
   
-  export default withStyles(styles)(TopTracks);
+  export default withStyles(topTracksStyles)(imageLoadingController(TopTracks));
