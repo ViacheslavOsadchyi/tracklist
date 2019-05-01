@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/tracklistBuild/static/css/main.fb51016c.chunk.css",
-    "main.js": "/tracklistBuild/static/js/main.58d2e993.chunk.js",
-    "main.js.map": "/tracklistBuild/static/js/main.58d2e993.chunk.js.map",
-    "runtime~main.js": "/tracklistBuild/static/js/runtime~main.1612caa0.js",
-    "runtime~main.js.map": "/tracklistBuild/static/js/runtime~main.1612caa0.js.map",
-    "static/js/2.6c845fc2.chunk.js": "/tracklistBuild/static/js/2.6c845fc2.chunk.js",
-    "static/js/2.6c845fc2.chunk.js.map": "/tracklistBuild/static/js/2.6c845fc2.chunk.js.map",
-    "index.html": "/tracklistBuild/index.html",
-    "precache-manifest.1aadd6460d960a94eb6184428f0ab032.js": "/tracklistBuild/precache-manifest.1aadd6460d960a94eb6184428f0ab032.js",
-    "service-worker.js": "/tracklistBuild/service-worker.js",
-    "static/css/main.fb51016c.chunk.css.map": "/tracklistBuild/static/css/main.fb51016c.chunk.css.map"
+    "main.css": "/tracklist/static/css/main.fb51016c.chunk.css",
+    "main.js": "/tracklist/static/js/main.5507b5fc.chunk.js",
+    "main.js.map": "/tracklist/static/js/main.5507b5fc.chunk.js.map",
+    "runtime~main.js": "/tracklist/static/js/runtime~main.0cf9ee04.js",
+    "runtime~main.js.map": "/tracklist/static/js/runtime~main.0cf9ee04.js.map",
+    "static/js/2.6c845fc2.chunk.js": "/tracklist/static/js/2.6c845fc2.chunk.js",
+    "static/js/2.6c845fc2.chunk.js.map": "/tracklist/static/js/2.6c845fc2.chunk.js.map",
+    "index.html": "/tracklist/index.html",
+    "precache-manifest.5a24e9a8df8ee0efcfa4533d8e9b3850.js": "/tracklist/precache-manifest.5a24e9a8df8ee0efcfa4533d8e9b3850.js",
+    "service-worker.js": "/tracklist/service-worker.js",
+    "static/css/main.fb51016c.chunk.css.map": "/tracklist/static/css/main.fb51016c.chunk.css.map"
   }
 }
